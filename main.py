@@ -50,6 +50,22 @@ def tampilkan_semua_pasien():
 
     input("\nTekan Enter untuk kembali ke menu utama...")  # Tunggu input sebelum kembali
 
+def tampilkan_data_berdasarkan_nomor_rekam_medik():
+    nomor_rekam_medik = input("Masukkan nomor rekam medik pasien: ")
+    pasien_ditemukan = False
+
+    for pasien in data_pasien:
+        if pasien["No Rekam Medic"] == nomor_rekam_medik:
+            pasien_ditemukan = True
+            print("\nData pasien berdasarkan No Rekam Medik:")
+            print(tabulate([pasien], headers="keys", tablefmt="pretty"))
+            break
+
+    if not pasien_ditemukan:
+        print("No Rekam Medik tidak ditemukan.")
+
+    input("\nTekan Enter untuk kembali ke menu Tampilkan Data...")
+
 # Fungsi untuk menambahkan data pasien dengan konfirmasi
 def tambah_pasien():
     while True:
@@ -190,10 +206,6 @@ def hapus_pasien():
                     print(tabulate([pasien], headers="keys", tablefmt="pretty"))
                 else:
                     print("Penghapusan data pasien dibatalkan.")
-                
-                kembali = pypi.inputChoice(["ya", "tidak"], prompt="Kembali ke menu hapus pasien? (ya/tidak): ").lower()
-                if kembali != "ya":
-                    return  # Keluar dari fungsi setelah selesai menghapus data
 
         if pasien_ditemukan is None:
             print("No Rekam Medic tidak ditemukan.")
@@ -202,11 +214,33 @@ def hapus_pasien():
         if kembali != "ya":
             return  # Keluar dari fungsi jika tidak ingin kembali
 
+def submenu_tampilkan_data():
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("\n=== TAMPILKAN DATA PASIEN ===")
+        print("1. Tampilkan semua pasien")
+        print("2. Tampilkan berdasarkan No Rekam Medik")
+        print("3. Kembali ke menu utama")
+        pilihan = input("Pilih opsi (1/2/3): ")
+
+        if pilihan == "1":
+            tampilkan_semua_pasien()
+        elif pilihan == "2":
+            tampilkan_data_berdasarkan_nomor_rekam_medik()
+        elif pilihan == "3":
+            return  # Kembali ke menu utama
+        else:
+            print("Pilihan tidak valid. Silakan coba lagi.")
+
+
+
+
+
 # Fungsi untuk menampilkan menu utama
 def menu_utama():
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("\n=== MENU UTAMA ===")
+        print("=== MENU UTAMA ===")
         print("1. Tampilkan data semua pasien")
         print("2. Tambah data pasien")
         print("3. Edit data pasien")
@@ -215,7 +249,7 @@ def menu_utama():
         pilihan = input("Pilih opsi (1/2/3/4/5): ")
 
         if pilihan == "1":
-            tampilkan_semua_pasien()
+            submenu_tampilkan_data()
         elif pilihan == "2":
             submenu_tambah_pasien()
         elif pilihan == "3":
